@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Estate Website</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .logo h1 {
+      margin: 0;
+    }
+
+    nav ul {
+      list-style-type: none;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    section {
+      padding: 40px 10%;
+      margin-bottom: 40px;
+    }
+
+    .hero {
+      text-align: center;
+      background-color: #f4f4f4;
+      padding: 60px 0;
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      margin: 0;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px;
+      width: 300px;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: #555;
+    }
+
+    .property-listings h2 {
+      text-align: center;
+      font-size: 30px;
+    }
+
+    .property-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .property {
+      width: 30%;
+      background-color: #f4f4f4;
+      margin: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .property img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .property-info {
+      padding: 20px;
+    }
+
+    .property-info h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .property-info p {
+      color: #777;
+    }
+
+    .contact form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact input, .contact textarea {
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .contact button {
+      padding: 12px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .contact button:hover {
+      background-color: #555;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <div class="logo">
+        <h1>RealEstatePro</h1>
+      </div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Properties</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Find Your Dream Home</h2>
+    <p>Browse through our listings to find the perfect property for you</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for properties...">
+      <button onclick="searchProperties()">Search</button>
+    </div>
+  </section>
+
+  <!-- Property Listings -->
+  <section class="property-listings">
+    <h2>Featured Properties</h2>
+    <div class="property-container" id="property-container">
+      <!-- Property items will be dynamically added here -->
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact">
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <textarea id="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 RealEstatePro. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Data for properties
+    const properties = [
+      {
+        id: 1,
+        name: "Luxury Villa",
+        description: "A beautiful luxury villa with a swimming pool.",
+        price: "$1,500,000",
+        image: "https://imperiobanus.com/wp/wp-content/uploads/2018/04/11-1.jpg",
+      },
+      {
+        id: 2,
+        name: "Modern Apartment",
+        description: "A modern apartment in the city center.",
+        price: "$500,000",
+        image: "https://cdn.home-designing.com/wp-content/uploads/2015/09/modern-living-room.jpg",
+      },
+      {
+        id: 3,
+        name: "Cozy Cottage",
+        description: "A cozy cottage near the beach.",
+        price: "$350,000",
+        image: "https://i.pinimg.com/originals/ce/be/a2/cebea2374090227880de495db47919de.jpg",
+      },
+      {
+        id: 4,
+        name: "Spacious Office Space",
+        description: "An office space in a prime business location.",
+        price: "$800,000",
+        image: "https://i.pinimg.com/736x/52/25/b3/5225b3c04cd16b87de1fbcf3830dcae4.jpg",
+      },
+      {
+        id: 5,
+        name: "Family Home",
+        description: "A perfect family home in a quiet neighborhood.",
+        price: "$650,000",
+        image: "https://patch.com/img/cdn/users/20673003/stock/raw/20150154ba7f7b5b122.jpg",
+      },
+    ];
+
+    // Function to display properties on the page
+    function displayProperties(propertiesToShow) {
+      const container = document.getElementById("property-container");
+      container.innerHTML = "";
+
+      propertiesToShow.forEach(property => {
+        const propertyElement = document.createElement("div");
+        propertyElement.classList.add("property");
+        propertyElement.innerHTML = `
+          <img src="${property.image}" alt="${property.name}">
+          <div class="property-info">
+            <h3>${property.name}</h3>
+            <p>${property.description}</p>
+            <p><strong>${property.price}</strong></p>
+          </div>
+        `;
+        container.appendChild(propertyElement);
+      });
+    }
+
+    // Function to search properties
+    function searchProperties() {
+      const searchInput = document.getElementById("searchInput").value.toLowerCase();
+      const filteredProperties = properties.filter(property =>
+        property.name.toLowerCase().includes(searchInput) ||
+        property.description.toLowerCase().includes(searchInput)
+      );
+      displayProperties(filteredProperties);
+    }
+
+    // Display all properties initially
+    displayProperties(properties);
+
+    // Contact form submission handler
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      alert("Your message has been sent!");
+      document.getElementById("contactForm").reset();
+    });
+  </script>
+
+</body>
+</html>
